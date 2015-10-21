@@ -50,18 +50,58 @@ var d3render = function(city, country) {
   var daysOfData = 16;
   var weatherURL = 'http://api.openweathermap.org/data/2.5/forecast/daily?q=' + city + ',' + country + '&units=metric&cnt=' + daysOfData + '&APPID=' + appID;
 
-
   d3.json(weatherURL, function(error, data) {
 
     // console.log(data);
-//
+
     // console.log(data.length);
 
     // console.log(data);
     // debugger;
 
     data = data.list;
+    // debugger;
 
+    var min = data[0].temp.min;
+    var max = data[0].temp.max;
+
+    for ( var i = 1; i < data.length; i++ ) {
+      // Work out the min (if the current days minimum is less than the variable min)
+      var minimumTemp = data[i].temp.min;
+      if ( minimumTemp < min ) {
+        min = minimumTemp;
+      }
+
+      // Work out the max (if the current days maximum is greater than the variable max)
+      var maximumTemp = data[i].temp.max;
+      if ( maximumTemp > max ) {
+        max = maximumTemp;
+      }
+    };
+
+    // needs to be max and min across ALL days
+  // each day is a seperate object, how to get the max and min from all days?
+  // 
+  var maxTemperature = max;
+  var minTemperature = min;
+  
+  var maxColors = 16777216;
+
+  // maxTemp - minTemperature
+  var numberOfColors = maxTemperature - minTemperature;
+  var sizeOfEachColor = maxColors / numberOfColors;
+
+  console.log(sizeOfEachColor);
+
+  for (var i=0; i < numberOfColors; i++) {
+
+    var color = "#" + (Math.round(i * sizeOfEachColor)).toString( 16 )
+
+    console.log(color);
+
+  }
+
+    console.log( "Minimum: ", min, " Maximum: ", max );
     // console.log(data);
 
 
@@ -81,7 +121,9 @@ var d3render = function(city, country) {
         .attr("fill", function(d) { 
 
           // need to rotate the gradient so that it starts from the center?
-          var rotateValue = "rotate(" + Math.round(d.startAngle * 60) + ")";
+
+          // var rotateValue = "rotate(" + Math.round(d.startAngle * 60) + ")";
+          // var rotateValue = function(d) { return "rotate("} + Math.round((d.startAngle + (d.endAngle - d.startAngle)/2) * 57.3) + "50,50"; 
 
           var gradient = svg.append("svg:defs")
             .append("svg:linearGradient")
@@ -91,6 +133,7 @@ var d3render = function(city, country) {
               .attr("x2", "100%")
               .attr("y2", "100%")
               .attr("spreadMethod", "pad")
+              // .attr("gradientTransform", function(d) { return "rotate(" + Math.round((d.startAngle + (d.endAngle - d.startAngle)/2) * 57.3) + "50,50)"; })
               // .attr("gradientTransform", rotateValue)
           gradient.append("svg:stop")
               .attr("offset", "0%")
@@ -101,7 +144,7 @@ var d3render = function(city, country) {
               .attr("stop-color", "#cc0000")
               .attr("stop-opacity", 1);
 
-          console.log(d);      
+          // console.log(d);      
 
           // return gradient;
           return "url(#gradient)"
@@ -152,24 +195,26 @@ var d3render = function(city, country) {
 $( document ).ready(function() {
 
   // needs to be max and min across ALL days
-  var maxTemperature = 37;
-  var minTemperature = 10;
+  // each day is a seperate object, how to get the max and min from all days?
+  // 
+  // var maxTemperature = 36;
+  // var minTemperature = 5;
   
-  var maxColors = 16777216;
+  // var maxColors = 16777216;
 
-  // maxTemp - minTemperature
-  var numberOfColors = 27;
-  var sizeOfEachColor = maxColors / numberOfColors;
+  // // maxTemp - minTemperature
+  // var numberOfColors = maxTemperature - minTemperature;
+  // var sizeOfEachColor = maxColors / numberOfColors;
 
-  console.log(sizeOfEachColor);
+  // // console.log(sizeOfEachColor);
 
-  for (var i=0; i < numberOfColors; i++) {
+  // for (var i=0; i < numberOfColors; i++) {
 
-    var color = "#" + (Math.round(i * sizeOfEachColor)).toString( 16 )
+  //   var color = "#" + (Math.round(i * sizeOfEachColor)).toString( 16 )
 
-    console.log(color);
+  //   // console.log(color);
 
-  }
+  // }
 
   $( "#search" ).click(function() {
     var city = $('#city').val();
