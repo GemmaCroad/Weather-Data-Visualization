@@ -1,6 +1,5 @@
 var d3render = function(city, country) {
 
-
   var width = 500,
       height = 500,
       radius = Math.min(width, height) / 2,
@@ -32,9 +31,9 @@ var d3render = function(city, country) {
       return returnValue;
     });
 
-  var outlineArc = d3.svg.arc()
-          .innerRadius(innerRadius)
-          .outerRadius(radius);
+  // var outlineArc = d3.svg.arc()
+  //         .innerRadius(innerRadius)
+  //         .outerRadius(radius);
 
   // removes previous data 
   d3.select("svg").remove();
@@ -72,29 +71,7 @@ var d3render = function(city, country) {
 
     // console.log(data);
 
-
     // for (var i = 0; i < data.score; i++) { console.log(data[i].id) }
-
-
-    // var gradient = svg.append("svg:defs")
-    //   .append("svg:linearGradient")
-    //     .attr("id", "gradient")
-    //     .attr("x1", "0%")
-    //     .attr("y1", "0%")
-    //     .attr("x2", "100%")
-    //     .attr("y2", "100%")
-    //     .attr("spreadMethod", "pad")
-    //     .attr("gradientTransform", "rotate(0)")
-    // gradient.append("svg:stop")
-    //     .attr("offset", "0%")
-    //     .attr("stop-color", "#00f")
-    //     .attr("stop-opacity", 1);
-    // gradient.append("svg:stop")
-    //     .attr("offset", "100%")
-    //     .attr("stop-color", "#c00")
-    //     .attr("stop-opacity", 1);
-
-    //     console.log(gradient);
 
     var path = svg.selectAll(".solidArc")
         .data(pie(data))
@@ -103,7 +80,9 @@ var d3render = function(city, country) {
 
         .attr("fill", function(d) { 
 
+          // need to rotate the gradient so that it starts from the center?
           var rotateValue = "rotate(" + Math.round(d.startAngle * 60) + ")";
+
           var gradient = svg.append("svg:defs")
             .append("svg:linearGradient")
               .attr("id", "gradient")
@@ -112,14 +91,14 @@ var d3render = function(city, country) {
               .attr("x2", "100%")
               .attr("y2", "100%")
               .attr("spreadMethod", "pad")
-              .attr("gradientTransform", rotateValue)
+              // .attr("gradientTransform", rotateValue)
           gradient.append("svg:stop")
               .attr("offset", "0%")
-              .attr("stop-color", "#00f")
+              .attr("stop-color", "#00000f")
               .attr("stop-opacity", 1);
           gradient.append("svg:stop")
               .attr("offset", "100%")
-              .attr("stop-color", "#c00")
+              .attr("stop-color", "#cc0000")
               .attr("stop-opacity", 1);
 
           console.log(d);      
@@ -151,31 +130,6 @@ var d3render = function(city, country) {
 
       // .text(Math.round(d));
 
-
-
-
-
-
-  // var gradient = svg.append("svg:defs")
-  //   .append("svg:linearGradient")
-  //     .attr("id", "gradient")
-  //     .attr("x1", "0%")
-  //     .attr("y1", "0%")
-  //     .attr("x2", "100%")
-  //     .attr("y2", "100%")
-  //     .attr("spreadMethod", "pad");
-
-  // gradient.append("svg:stop")
-  //     .attr("offset", "0%")
-  //     .attr("stop-color", "#0c0")
-  //     .attr("stop-opacity", 1);
-
-  // gradient.append("svg:stop")
-  //     .attr("offset", "100%")
-  //     .attr("stop-color", "#c00")
-  //     .attr("stop-opacity", 1);
-
-
    // svg.append("linearGradient")
    //   .attr("id", "temperature-gradient")
    //   .attr("gradientUnits", "userSpaceOnUse")
@@ -198,30 +152,24 @@ var d3render = function(city, country) {
 $( document ).ready(function() {
 
   // needs to be max and min across ALL days
-  // var maxTemperature = 37;
-  // var minTemperature = 10;
+  var maxTemperature = 37;
+  var minTemperature = 10;
+  
+  var maxColors = 16777216;
 
+  // maxTemp - minTemperature
+  var numberOfColors = 27;
+  var sizeOfEachColor = maxColors / numberOfColors;
 
-  // var maxColour = 16777216;
+  console.log(sizeOfEachColor);
 
-  // var numberOfColours = 27;
-  // var sizeOfEachColour = maxColour / numberOfColours;
+  for (var i=0; i < numberOfColors; i++) {
 
-  // // console.log(sizeOfEachColour);
+    var color = "#" + (Math.round(i * sizeOfEachColor)).toString( 16 )
 
-  // for (var i=0; i < numberOfColours; i++) {
+    console.log(color);
 
-  //   var colour = "#" + (Math.round(i * sizeOfEachColour)).toString( 16 )
-
-  //   // console.log(colour);
-
-  // }
-
-
-
-
-
-
+  }
 
   $( "#search" ).click(function() {
     var city = $('#city').val();
