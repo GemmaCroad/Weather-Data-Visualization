@@ -1,6 +1,5 @@
 var d3render = function(city, country) {
 
-  // 
   var width = 500,
       height = 500,
       radius = Math.min(width, height) / 2,
@@ -20,7 +19,7 @@ var d3render = function(city, country) {
   var arc = d3.svg.arc()
     .innerRadius(function (d) {
       returnValue = ( radius - innerRadius ) * ( d.data.temp.min / 100.0 ) + 75;
-      // console.log("returnValue: " + returnValue + ", d.data.temp.min: " + d.data.temp.min);
+      // console.log("returnValue: " + returnVaxlue + ", d.data.temp.min: " + d.data.temp.min);
       return returnValue;
     })
     // .innerRadius(radius - innerRadius) * (d.data.temp.min / 100.0) +
@@ -31,7 +30,8 @@ var d3render = function(city, country) {
       // console.log("returnValue: " + returnValue + ", d.data.temp.max: " + d.data.temp.max);
       return returnValue;
     });
-]
+
+  // can be used to extend the lines of the chart
   // var outlineArc = d3.svg.arc()
   //         .innerRadius(innerRadius)
   //         .outerRadius(radius);
@@ -57,6 +57,10 @@ var d3render = function(city, country) {
     // console.log(data.length);
     // console.log(data);
     // debugger;
+    date = data.list.dt;
+
+    
+
 
     data = data.list;
     // debugger;
@@ -101,6 +105,9 @@ var d3render = function(city, country) {
       console.log(color);
     }
 
+    // return maxTemperature;
+    // return minTemperature;
+
     data.forEach(function(d) {
       // works out the size of each segment based on the number of items in data returned from the search
       d.width  =  360 / data.length;
@@ -130,11 +137,11 @@ var d3render = function(city, country) {
               // .attr("gradientTransform", rotateValue)
           gradient.append("svg:stop")
               .attr("offset", "0%")
-              .attr("stop-color", "#00000f")
-              .attr("stop-opacity", 1);
+              .attr("stop-color", "#344152x")
+              .attr("stop-opacity", 1);  
           gradient.append("svg:stop")
               .attr("offset", "100%")
-              .attr("stop-color", "#cc0000")
+              .attr("stop-color", "#9AC0CD")
               .attr("stop-opacity", 1);
 
           // console.log(d);      
