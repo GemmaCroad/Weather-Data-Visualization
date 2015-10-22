@@ -56,10 +56,25 @@ var d3render = function(city, country) {
 
     // console.log(data.length);
     // console.log(data);
-    // debugger;
-    date = data.list.dt;
+    // date = data.list[0].dt;
+    // console.log('this is that data thing:');
+    // console.log(data);
 
-    
+    // function getDateTime(unixTimeStamp) {
+
+    //   var d = new Date(unixTimeStamp);
+    //   var h = (d.getHours().toString().length == 1) ? ('0' + d.getHours()) : d.getHours();
+    //   var m = (d.getMinutes().toString().length == 1) ? ('0' + d.getMinutes()) : d.getMinutes();
+    //   var s = (d.getSeconds().toString().length == 1) ? ('0' + d.getSeconds()) : d.getSeconds();
+
+    //   var time = h + '/' + m + '/' s;
+
+    // debugger;
+    // return time;
+    // }
+
+    // var myTime = getDateTime(date);
+    // console.log(myTime);
 
 
     data = data.list;
