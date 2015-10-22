@@ -1,5 +1,6 @@
 var d3render = function(city, country) {
 
+  // 
   var width = 500,
       height = 500,
       radius = Math.min(width, height) / 2,
@@ -18,25 +19,26 @@ var d3render = function(city, country) {
 
   var arc = d3.svg.arc()
     .innerRadius(function (d) {
-      returnValue = (radius - innerRadius) * (d.data.temp.min / 100.0) + 75;
+      returnValue = ( radius - innerRadius ) * ( d.data.temp.min / 100.0 ) + 75;
       // console.log("returnValue: " + returnValue + ", d.data.temp.min: " + d.data.temp.min);
       return returnValue;
     })
     // .innerRadius(radius - innerRadius) * (d.data.temp.min / 100.0) +
     .outerRadius(function (d) {
-      returnValue = (radius - innerRadius) * (d.data.temp.max / 100.0) + innerRadius + 75;
-//                     500  - 250          * 19.23 / 100               + 200
-//                      250                * 0.1923                    + 200
+      returnValue = ( radius - innerRadius ) * ( d.data.temp.max / 100.0 ) + innerRadius + 75;
+                      // 500  - 250          * 19.23 / 100               + 200
+                      // 250                * 0.1923                    + 200
       // console.log("returnValue: " + returnValue + ", d.data.temp.max: " + d.data.temp.max);
       return returnValue;
     });
-
+]
   // var outlineArc = d3.svg.arc()
   //         .innerRadius(innerRadius)
   //         .outerRadius(radius);
 
   // removes previous data 
   d3.select("svg").remove();
+
   var svg = d3.select("body").append("svg")
       .attr("width", width)
       .attr("height", height)
@@ -52,10 +54,7 @@ var d3render = function(city, country) {
 
   d3.json(weatherURL, function(error, data) {
 
-    // console.log(data);
-
     // console.log(data.length);
-
     // console.log(data);
     // debugger;
 
@@ -66,52 +65,46 @@ var d3render = function(city, country) {
     var max = data[0].temp.max;
 
     for ( var i = 1; i < data.length; i++ ) {
-      // Work out the min (if the current days minimum is less than the variable min)
+
+      // Works out the min (if the current days minimum is less than the variable min)
       var minimumTemp = data[i].temp.min;
       if ( minimumTemp < min ) {
         min = minimumTemp;
       }
 
-      // Work out the max (if the current days maximum is greater than the variable max)
+      // Works out the max (if the current days maximum is greater than the variable max)
       var maximumTemp = data[i].temp.max;
       if ( maximumTemp > max ) {
         max = maximumTemp;
       }
     };
 
-    // needs to be max and min across ALL days
-  // each day is a seperate object, how to get the max and min from all days?
-  // 
-  var maxTemperature = max;
-  var minTemperature = min;
-  
-  var maxColors = 16777216;
-
-  // maxTemp - minTemperature
-  var numberOfColors = maxTemperature - minTemperature;
-  var sizeOfEachColor = maxColors / numberOfColors;
-
-  console.log(sizeOfEachColor);
-
-  for (var i=0; i < numberOfColors; i++) {
-
-    var color = "#" + (Math.round(i * sizeOfEachColor)).toString( 16 )
-
-    console.log(color);
-
-  }
-
     console.log( "Minimum: ", min, " Maximum: ", max );
     // console.log(data);
 
+    var maxTemperature = max;
+    var minTemperature = min;
+
+    // the total number of hex code colors available
+    var maxColors = 16777216;
+
+    // maxTemp - minTemperature
+    var numberOfColors = maxTemperature - minTemperature;
+
+    // works out the "size" of each hex color for the temp range from the data set
+    var sizeOfEachColor = maxColors / numberOfColors;
+
+    console.log(sizeOfEachColor);
+
+    for (var i=0; i < numberOfColors; i++) {
+      var color = "#" + (Math.round(i * sizeOfEachColor)).toString( 16 )
+      console.log(color);
+    }
 
     data.forEach(function(d) {
+      // works out the size of each segment based on the number of items in data returned from the search
       d.width  =  360 / data.length;
     });
-
-    // console.log(data);
-
-    // for (var i = 0; i < data.score; i++) { console.log(data[i].id) }
 
     var path = svg.selectAll(".solidArc")
         .data(pie(data))
@@ -145,8 +138,8 @@ var d3render = function(city, country) {
               .attr("stop-opacity", 1);
 
           // console.log(d);      
-
           // return gradient;
+
           return "url(#gradient)"
        
         })
@@ -169,54 +162,17 @@ var d3render = function(city, country) {
     svg.append("svg:text")
       .attr("class", "value")
       .attr("dy", ".35em")
-      .attr("text-anchor", "middle"); // text-align: right
+      .attr("text-anchor", "middle");
 
       // .text(Math.round(d));
-
-   // svg.append("linearGradient")
-   //   .attr("id", "temperature-gradient")
-   //   .attr("gradientUnits", "userSpaceOnUse")
-   //   .attr("x1", "0%").attr("y1", "100%")
-   //   .attr("x2", "0%").attr("y2", "100%")
-   //   .selectAll("stop")
-   //   .data([
-   //     {offset: "0%", color: "#FF0000"},
-   //     {offset: "100%", color: "#FF00FF"}
-   //   ])
-   //   .enter().append("stop")
-   //   .attr("offset", function(d) { console.log(d.offset); return d.offset; })
-   //   .attr("stop-color", function(d) { console.log(d.color);  return d.color; });
-
-
   });
 
 };
 
 $( document ).ready(function() {
 
-  // needs to be max and min across ALL days
-  // each day is a seperate object, how to get the max and min from all days?
-  // 
-  // var maxTemperature = 36;
-  // var minTemperature = 5;
-  
-  // var maxColors = 16777216;
-
-  // // maxTemp - minTemperature
-  // var numberOfColors = maxTemperature - minTemperature;
-  // var sizeOfEachColor = maxColors / numberOfColors;
-
-  // // console.log(sizeOfEachColor);
-
-  // for (var i=0; i < numberOfColors; i++) {
-
-  //   var color = "#" + (Math.round(i * sizeOfEachColor)).toString( 16 )
-
-  //   // console.log(color);
-
-  // }
-
   $( "#search" ).click(function() {
+
     var city = $('#city').val();
     var country = $('#country').val();
     d3render(city, country);
@@ -225,3 +181,4 @@ $( document ).ready(function() {
 
 
 
+  
