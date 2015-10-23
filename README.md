@@ -19,7 +19,7 @@ The tools I used during this project:
 
 The project has been deployed with GH pages and can be found [here](http://gemmastiles.github.io/Weather-Data-Visualization/). 
 
-I wanted to do something that challenged me and was front-end based. I was keen on  producing something visually interesting and I wanted to incorporate working with a complex API as I feel 
+I wanted to do something that challenged me and was front-end based. I was keen on  producing something visually interesting and I wanted to incorporate working with a complex API as I feel this was something I needed more practice with.
 
 
 ## Challenges
